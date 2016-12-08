@@ -1,0 +1,1 @@
+openssl x509 -inform pem -in cacert.pem -out cacert.cer

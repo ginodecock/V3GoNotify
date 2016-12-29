@@ -12,7 +12,7 @@
         {
           "name": "GoNotify-V3 ATMEGA",
           "architecture": "avr",
-          "version": "3.0.1",
+          "version": "3.0.0",
           "category": "Contributed",
           "help": {
             "online": "http://www.g-dc.be"

@@ -1,0 +1,47 @@
+{
+  "packages": [
+    {
+      "name": "GoNotify-V3",
+      "maintainer": "G-DC.be",
+      "websiteURL": "https://github.com/ginodecock/V3GoNotify/",
+      "email": "ginodecock@skynet.be",
+      "help": {
+        "online": "http://www.g-dc.be"
+      },
+      "platforms": [
+        {
+          "name": "GoNotify-V3 ATMEGA",
+          "architecture": "avr",
+          "version": "3.0.0",
+          "category": "Contributed",
+          "help": {
+            "online": "http://www.g-dc.be"
+          },
+          "url": "https://raw.githubusercontent.com/ginodecock/V3GoNotify/master/ArduinoBoard/GoNotify_ATMEGA_V3.zip",
+          "archiveFileName": "GoNotify_ATMEGA_V3.zip",
+          "checksum": "SHA-256:dd7948cba06cfeb614d5b77fd8a1b56e0894e625e608d07b43e6e8d6c72eab8b",
+          "size": "220958",
+          "help": {
+                    "online": "http://www.g-dc.be"
+          },
+          "boards": [
+            {"name": "GoNotifyV3"}
+          ],
+          "toolsDependencies": [
+            {
+              "packager": "arduino",
+              "name": "avr-gcc",
+              "version": "4.8.1-arduino5"
+            },
+            {
+              "packager": "arduino",
+              "name": "avrdude",
+              "version": "6.0.1-arduino5"
+            }
+          ]
+        }
+      ],
+      "tools":[]
+    }
+  ]
+}

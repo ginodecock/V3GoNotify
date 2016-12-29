@@ -1,0 +1,25 @@
+
+# This is a hack to use the ATmega328PB as if it was an ATmega328P
+
+#######################################################################
+# GoNotify_ATMEGA at 4 MHz internal oscillator.
+#######################################################################
+
+GoNotify_ATMEGA.name=GoNotify @ 4 MHz (internal RC)
+GoNotify_ATMEGA.upload.tool=avrdude_no_signature
+GoNotify_ATMEGA.upload.protocol=arduino
+GoNotify_ATMEGA.upload.maximum_size=32256
+GoNotify_ATMEGA.upload.maximum_data_size=2048
+GoNotify_ATMEGA.upload.speed=38400
+GoNotify_ATMEGA.bootloader.extended_fuses=0x05
+GoNotify_ATMEGA.bootloader.high_fuses=0xde
+GoNotify_ATMEGA.bootloader.low_fuses=0xe2
+GoNotify_ATMEGA.bootloader.file=optiboot_6_2_GoNotify\optiboot_atmega328_pro_4MHz.hex
+GoNotify_ATMEGA.bootloader.unlock_bits=0x3f
+GoNotify_ATMEGA.bootloader.lock_bits=0x0f
+GoNotify_ATMEGA.bootloader.tool=avrdude_no_signature
+GoNotify_ATMEGA.build.mcu=atmega328p
+GoNotify_ATMEGA.build.f_cpu=4000000L
+GoNotify_ATMEGA.build.core=arduino
+GoNotify_ATMEGA.build.variant=GoNotify4Mhz
+GoNotify_ATMEGA.build.board=AVR_GONOTIFY_V3

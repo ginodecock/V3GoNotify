@@ -1,0 +1,18 @@
+doctype html
+html
+	head
+		title= 'getLocation'
+	body
+	table(border='3',width='900px')
+		thead
+			th Chip ID
+			th value 1
+			th value 2
+			th value 3			
+		tbody
+			each val in input
+				tr
+					td(contenteditable='true',style:'width: 40%')=val.chipId
+					td(contenteditable='true',style:'width: 20%')=val.value1
+					td(contenteditable='true',style:'width: 20%')=val.value2
+					td(contenteditable='true',style:'width: 20%')=val.value3				

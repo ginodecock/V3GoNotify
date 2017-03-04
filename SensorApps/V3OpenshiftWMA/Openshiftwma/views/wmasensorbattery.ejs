@@ -1,0 +1,45 @@
+<!doctype html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r224/prettify.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r224/prettify.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+</head>
+<body>
+	<div class="container">
+	<div class="page-header text-center">
+		<h1>Sensor battery</h1>
+    </div>
+ <div class="well">
+                <div class="row">
+			
+		<h2>Vcc</h2>
+		<div id="volt"></div><br>
+</div>
+</div>
+
+<script>
+var Battery_data = [
+<% sensorlogs.forEach(function(sensorlog){ %>
+  {"Period": <%= dateFormat(sensorlog.timestamp) %>, "Battery": <%= sensorlog.value3 %>},
+<%  }) %>
+];
+Morris.Line({
+  element: 'volt',
+  data: Battery_data,
+  xkey: 'Period',
+  ykeys: ['Battery'],
+  labels: ['Battery'],
+  dateFormat: function (x) { return new Date(x).toDateString(); }
+});
+
+function Datems() {
+    document.getElementById("demo").innerHTML = "Paragraph changed.";
+}
+</script>
+</body>

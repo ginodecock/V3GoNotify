@@ -1,0 +1,107 @@
+<!doctype html>
+<html>
+<head>
+    <title>Watermeter Dashboard</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+    <style>
+        body         {word-wrap:break-word; }
+    </style>
+</head>
+<body>
+<div class="container">
+
+    <div class="page-header text-center">
+		<h1>Watermeter dashboard</h1>
+    </div>
+
+    <div class="row">
+
+        <!-- LOCAL INFORMATION -->
+        <div class="col-sm-6">
+            <div class="well">
+                <h3><span class="fa fa-user"></span> 
+                    <%= user.local.email %></h3><br>
+					
+					<a href="/logout" class="btn btn-default">Logout</a>
+                <% if (user.local.email != "demo") {%>
+					<a href="/unlink/local" class="btn btn-default">Unlink</a>
+                    <a href="/changesignup" class="btn btn-default">Change Password</a>
+				<%}%>
+				<% if (user.local.email == "ginodecock@skynet.be") {%>
+				<div>
+				
+				<br><strong>Debug commands</strong> <br>
+				</div>
+				<div class="row">
+                    <div class="col-sm-6">
+                        <a href="/getwma" class="btn btn-default">Sensor logs</a>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-6">
+                        <a href="/getmysensors" class="btn btn-default">List my sensors</a>
+                    </div>
+                </div>
+				<div class="row">
+                    <div class="col-sm-6">
+                        <a href="/getmyusers" class="btn btn-default">List my users</a>
+                    </div>
+                </div>
+				
+				<form action="/deletemyuser" method="post">
+                <div class="form-group">
+							<label>Id to delete</label>
+                            <input type="text" class="form-control" name="userid">
+                            <button type="submit" class="btn btn-default" value="Delete" name="deletemyuser">Delete user</button>
+				</div>
+				</form>
+				<%}%>
+				
+				
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="well">
+                <div class="row">
+							
+					<% sensors.forEach(function(sensor){ %>
+							<%if (sensor.pbnotify) {%>
+								<h3><span class="fa fa-bell"></span>
+							<%}%>
+							<%if (!sensor.pbnotify) {%>
+							<h3><span class="fa fa-bell-o"></span>
+							<%}%>
+							<%= sensor.name %></h3>
+							
+							<strong>type</strong>: <%= sensor.type %><br>
+							<strong>id</strong>: <%= sensor.sensorId %><br>
+							<strong>pbid</strong>: <%= sensor.pbid%><br>
+						
+					
+					
+                        <form action="/controlmysensor" method="post">
+                        <div class="form-group">
+                            <input type="hidden" class="form-control" value = <%= sensor.sensorId %> name="sensorId">
+                        </div>
+                            <button type="submit" class="btn btn-default" value="Log" name="request">Log</button>
+							<button type="submit" class="btn btn-default" value="Graph" name="request">Graph</button>
+							<button type="submit" class="btn btn-default" value="Battery" name="request">Battery</button>
+							<button type="submit" class="btn btn-default" value="Alarm" name="request">Alarm</button>
+							<button type="submit" class="btn btn-default" value="Config" name="request">Config</button>
+                        </form>
+                        <%  }) %>
+						<br>
+						<form action="/newsensor" method="post">
+						<div class="form-group">
+                            <input type="hidden" class="form-control" value = <%= user._id %> name="userId">
+                        </div>
+                            <button type="submit" class="btn btn-default">New sensor</button>
+                        </form>
+                </div>
+            </div>
+        </div> 
+    </div>
+</div>
+</body>
+</html>

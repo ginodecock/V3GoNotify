@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+    <title>Config sensor</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.min.css">
+</head>
+<script type="text/javascript">
+function resetInput(id) {
+   document.getElementById(id+"input").value="0";
+}
+</script>
+<html>
+    <body>
+	<div class="container">
+	<div class="page-header text-center">
+		<h1>Config Sensor</h1>
+    </div>
+	
+            <div class="well">
+                <div class="row">
+                    <% sensors.forEach(function(sensor){ %>
+                        <form action="/updatemysensor" method="post">
+                        <div class="form-group">
+                            <label><b>SensorId:</b><%=sensor.sensorId%></label>
+							<input type="hidden" class="form-control" name="sensorId" value= "<%=sensor.sensorId%>">
+                        </div>
+						<div class="form-group">
+							<input type="hidden" class="form-control" name="_id" value= <%=sensor._id%>>
+                        </div>
+                        <div class="form-group">
+                            <label>Name</label>
+                            <input type="text" class="form-control" name="name" value= "<%=sensor.name%>">
+                        </div>
+                        <div class="form-group">
+                            <label>Type</label>
+                            <input type="text" class="form-control" name="type" value= "<%=sensor.type%>">
+                        </div>
+                        <div class="form-group">
+                            <label>Meteroffset</label>
+                            <input type="number" class="form-control" name="meteroffset" value= "<%=sensor.meteroffset%>"> 
+                        </div>
+                        <div class="form-group">
+                            <label>Rebootoffset</label>
+                            <input id="rebootoffsetinput" type="number" class="form-control" name="rebootoffset" value= "<%=sensor.rebootoffset%>"><input type="button" id="rebootoffset" class="btn btn-default" onclick="resetInput(this.id) "value="Reset">
+                        </div>
+						<div class="form-group">
+                            <label>Pushbullet Id</label>
+                            <input type="text" class="form-control" name="pbid" value= <%=sensor.pbid%>>
+                        </div>
+						<div class="form-group">
+                            <label>Pushbullet notification</label><br>
+							<input type="radio" name="pbnotify" value="1" <% if(sensor.pbnotify){ %> checked <% } %>> Enable<br>
+							<input type="radio" name="pbnotify" value="0" <% if(!sensor.pbnotify){ %> checked <% } %>> Disable<br>
+                        </div>
+                            <button type="submit" class="btn btn-default">Update sensor</button>
+                        </form>
+						<form action="/deletemysensor" method="post">
+                        <div class="form-group">
+							<input type="hidden" class="form-control" name="_id" value= <%=sensor._id%>>
+                        </div>
+                            <button type="submit" class="btn btn-default">Delete sensor</button>
+                        </form>
+						<%  }) %>
+                    </div>
+                
+            </div>
+        
+    </body>
+</html>

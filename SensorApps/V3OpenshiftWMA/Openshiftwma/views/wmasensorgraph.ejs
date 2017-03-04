@@ -1,0 +1,64 @@
+<!doctype html>
+<head>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.2/raphael-min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/prettify/r224/prettify.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prettify/r224/prettify.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+</head>
+<body>
+	<div class="container">
+	<div class="page-header text-center">
+		<h1>Sensorlogs</h1>
+    </div>
+ <div class="well">
+        <div class="row">
+			<h2>Water</h2>
+			<div id="water"></div>
+		</div>
+</div>
+<div class="well">
+		<div class="row">
+			<h2>Temperature</h2>
+			<div id="temp"></div>
+		</div>
+</div>
+
+<script>
+var Waterusage_data = [
+<% for(var i=1; i < sensorlogs.length; i++) { %>
+	<% if (sensorlogs[i].value1 >= sensorlogs[i-1].value1) {%>
+  {"Period": '<%= humanDateFormat(sensorlogs[i].timestamp) %>', "Liter": <%= sensorlogs[i].value1 - sensorlogs[i-1].value1%>},
+<%  } %>
+<%  } %>
+];
+Morris.Bar({
+  element: 'water',
+  data: Waterusage_data,
+  xkey: 'Period',
+  ykeys: ['Liter'],
+  labels: ['Liter']
+});
+var Temperature_data = [
+<% sensorlogs.forEach(function(sensorlog){ %>
+  {"Period": <%= dateFormat(sensorlog.timestamp) %>, "Temperature": <%= sensorlog.value2 %>},
+<%  }) %>
+];
+Morris.Line({
+  element: 'temp',
+  data: Temperature_data,
+  xkey: 'Period',
+  ykeys: ['Temperature'],
+  labels: ['Temperature'],
+  dateFormat: function (y) { return new Date(y).toDateString(); }
+});
+
+function Datems() {
+    document.getElementById("demo").innerHTML = "Paragraph changed.";
+}
+</script>
+</body>

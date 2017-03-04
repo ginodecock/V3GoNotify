@@ -284,7 +284,9 @@ void setup() {
   currentTemp = getTemp();
   value2 = currentTemp;
   Serial.println("Used:" + String(literHearbeat >> 2) + "l" + " at " + String(currentTemp) + "C " + String(batVcc) + "mV");
-
+  tone(Buzzer,2000,100);
+  delay(5000);
+  tone(Buzzer,2000,100);
   //Calibrate temperature
   pinMode(Trigger_switch, INPUT);
   if (digitalRead(Trigger_switch) == HIGH){
@@ -543,7 +545,7 @@ void loop() {
     int currentTemp;
     currentTemp = getTemp();
     currentTemp = getTemp();
-    Serial1.println(currentTemp, 1);
+    Serial.println(currentTemp, 1);
     if (currentTemp <= 600 && !tempTrigger) {
       sendMessage = true;
       value1 = literHearbeat >> 2;

@@ -165,8 +165,11 @@ ISR(WDT_vect)
         druppingTimerAlarm = 0;
       }
     }
+    
     if (timeHearbeat >= nextLog) {  //temp report every hour >=450
+   // if (timeHearbeat >= 450) {  //temp report every hour >=450
       timeHearbeat = 0;
+      //Serial.println("Timecount" + String(timeHearbeat));  
       alarmHeartbeat = true;
       alarm = 4;
     }
@@ -428,6 +431,7 @@ void software_Reboot()
 }
 void goToSleep(void)
 {
+  countOnTime = 0;
   digitalWrite(LED,LOW);
   digitalWrite(Step_EN, LOW);//3V off
   digitalWrite(Esp_power, HIGH);
@@ -457,13 +461,15 @@ void loop() {
   if (sendMessage)
   {
     digitalWrite(Step_EN, HIGH); //3.3v on
+    delay(100);
     digitalWrite(Esp_IO0, HIGH);//esp IO0
-    digitalWrite(Esp_RST, HIGH);
+    
     //delay(100);
 /*    for (int i = 255; i >= 128; i--) { //Turn on ESP-01
       analogWrite(10, i);
     }*/
     digitalWrite(Esp_power, LOW);//PB Bridge
+
     //delay(100);
     sendRHCMessage();
   }

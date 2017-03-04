@@ -5,6 +5,7 @@ extern "C" {
 #include <espnow.h>
 #include <user_interface.h>
 #include <secPubSubClient.h>
+#include <secNW_WatchDog.h>
 #include <secATT_IOT.h>                         //AllThingsTalk IoT library
 #include <SPI.h>                                //required to have support for signed/unsigned long type..
 
@@ -13,13 +14,12 @@ extern "C" {
 // Enter below your client credentials. 
 // These credentials can be found in the configuration pane under your device in the smartliving.io website 
 
-char deviceId[] = "Your device id comes here"; // Your device id comes here
-char clientId[] = " Your client id comes here"; // Your client id comes here;
-char clientKey[] = "Your client key comes here"; // Your client key comes here;
+char deviceId[] = "sf64IIUg0WvFuD9C4F96GadK"; // Your device id comes here
+char clientId[] = "ginodecock"; // Your client id comes here;
+char clientKey[] = "d4retlf3kmg"; // Your client key comes here;
 
-const char* ssid     = "Your AP comes here";
-const char* password = "Your AP password comes hers";
-
+const char* ssid     = "KlokjeGo";
+const char* password = "ZwaluWBoS";
 
 ATTDevice Device(deviceId, clientId, clientKey);            //create the object that provides the connection to the cloud to manager the device.
 char httpServer[] = "api.smartliving.io";                   // HTTP API Server host                  
@@ -37,7 +37,7 @@ int counter = 0;
 uint8_t mac[] = {0x18, 0xFE, 0x34, 0xA2, 0x3C, 0x70};
 
 
-os_timer_t myTimer;
+//os_timer_t myTimer;
 boolean tickOccured;
 void timerCallback(void *pArg) {
   tickOccured = true;
@@ -46,6 +46,7 @@ void timerCallback(void *pArg) {
 void callback(char* topic, byte* payload, unsigned int length);
 WiFiClientSecure ethClient;
 PubSubClient pubSub(mqttServer, 8883, callback,ethClient);  
+NW_WatchDog WatchDog(pubSub, deviceId, clientId, 10000); 
 
 void printMacAddress(uint8_t* macaddr) {
   Serial.print("{");
@@ -112,9 +113,14 @@ void setup() {
 
   int res = esp_now_add_peer(mac, (uint8_t)ESP_NOW_ROLE_CONTROLLER, (uint8_t)WIFI_DEFAULT_CHANNEL, NULL, 0);
 
-  delay(1000);                                                  //give the Ethernet shield a second to initialize:
+ // delay(1000);    
+//  while(!Device.Connect(&ethClient, httpServer,443))                // connect the device with the IOT platform.
+//    Serial.println("retrying");
+//  Device.AddAsset(9, "YourDigitalActuatorname", "Digital Actuator Description", true, "boolean");   // Create the Digital Actuator asset for your device
+  
   while(!Device.Subscribe(pubSub))                              // make certain that we can receive message from the iot platform (activate mqtt)
-    Serial.println("retrying");  
+    Serial.println("retrying"); 
+ // WatchDog.Setup(Device);//give the Ethernet shield a second to initialize:
 /*  if (ethClient.verify(fingerprinthttp, httpServer)) {
     Serial.println("http certificate matches");
   } else {
@@ -126,7 +132,7 @@ void setup() {
     Serial.println("mqtt certificate doesn't match");
   }   */                               
  // Timer
-  tickOccured = false;
+ // tickOccured = false;
   /*
    * os_timer_setfn - Define a function to be called when the timer fires
    * void os_timer_setfn(
@@ -135,7 +141,7 @@ void setup() {
    *   void *pArg)
    * The pArg parameter is the value registered with the callback function.
    */
-  os_timer_setfn(&myTimer, timerCallback, NULL);
+ // os_timer_setfn(&myTimer, timerCallback, NULL);
 
   /*
    * os_timer_arm -  Enable a millisecond granularity timer.
@@ -144,17 +150,26 @@ void setup() {
    *   uint32_t milliseconds,
    *   bool repeat)
    */
-  os_timer_arm(&myTimer, DELAY, true);
+ // os_timer_arm(&myTimer, DELAY, true);
+ //delay(10000); 
+ // WatchDog.Ping();
  
 }
 
 void loop() {
   Device.Process();
+   if(!WatchDog.CheckPing()){                                //if the ping failed, recreate the connection.  
+    Serial.println("recreating broker connection");
+    while(!Device.Subscribe(pubSub))                        // make certain that we can receive message from the iot platform (activate mqtt)
+        Serial.println("retrying");
+    WatchDog.Ping();                    //resstart the watchdog
+  }
   if (alarm == 1){
     if (data1 == 1){
       Serial.println(">1");
       Device.Send("true", 6);
       Serial.println("");  
+      //WatchDog.Ping();
     }
     if (data1 == 0){
       Serial.println(">0");
@@ -163,12 +178,13 @@ void loop() {
     }
     alarm = 0;
   }
-  if (tickOccured) {
+  /*if (tickOccured) {
     Serial.println("tick"); 
     counter++;
-    Device.Send(String(counter,DEC), 5);
+    //Device.Send(String(counter,DEC), 9);
+     Device.Send("true", 9);
     tickOccured = false;    
-  }
+  }*/
   yield();
 }
 
@@ -184,7 +200,9 @@ void callback(char* topic, byte* payload, unsigned int length)
       msgString = String(message_buff);
       msgString.toLowerCase();                                    //to make certain that our comparison later on works ok (it could be that a 'True' or 'False' was sent)
   }
-  {                                                       
+  int* idOut = NULL;
+  {               
+      int pinNr = Device.GetPinNr(topic, strlen(topic));                                        
       Serial.print("Payload: ");                            
       Serial.println(msgString);
       Serial.print("topic: ");
@@ -193,6 +211,10 @@ void callback(char* topic, byte* payload, unsigned int length)
             Serial.println("<buttondetected");
                    
         }
+        if(!WatchDog.IsWatchDog(pinNr, msgString)){
+        if(idOut != NULL)                                     //also let the iot platform know that the operation was succesful: give it some feedback. This also allows the iot to update the GUI's correctly & run scenarios.
+          Device.Send(msgString, *idOut); 
+      }
   }
 }
 

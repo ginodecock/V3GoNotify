@@ -101,6 +101,7 @@ boolean connectWiFi(){
   delay(5000);
   if(Serial1.find("OK")){
     Serial.println("Connected to WiFi");
+    tone(Buzzer,2000,100);
     return true;
   }else{
     return false;

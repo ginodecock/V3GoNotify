@@ -1,0 +1,12 @@
+ -----BEGIN RSA PRIVATE KEY-----
+(Your Private Key: your_domain_name.key)
+-----END RSA PRIVATE KEY-----
+-----BEGIN CERTIFICATE-----
+(Your Primary SSL certificate: your_domain_name.crt)
+-----END CERTIFICATE-----
+-----BEGIN CERTIFICATE-----
+(Your Intermediate certificate: DigiCertCA.crt)
+-----END CERTIFICATE-----
+-----BEGIN CERTIFICATE-----
+(Your Root certificate: TrustedRoot.crt)
+-----END CERTIFICATE----- 

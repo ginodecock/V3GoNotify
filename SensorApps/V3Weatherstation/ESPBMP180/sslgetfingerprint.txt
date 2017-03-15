@@ -1,0 +1,2 @@
+echo | openssl s_client -connect ifttt.maker.com:443 |& openssl x509 -fingerprint -noout
+echo | openssl s_client -connect rtupdate.wunderground.com:443 |& openssl x509 -fingerprint -noout

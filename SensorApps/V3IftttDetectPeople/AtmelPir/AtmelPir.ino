@@ -99,7 +99,7 @@ void setup() {
   digitalWrite(Buzzer, LOW);//buzzer
 
   pinMode(Esp_power, OUTPUT);//PB Bridge
-  digitalWrite(Esp_power, HIGH);//PB Bridge
+  digitalWrite(Esp_power, LOW);//PB Bridge
   pinMode(Esp_RST, OUTPUT);//esp reset
   digitalWrite(Esp_RST, HIGH);//esp reset
 

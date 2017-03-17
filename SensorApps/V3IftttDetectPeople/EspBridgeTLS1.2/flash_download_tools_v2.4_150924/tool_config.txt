@@ -1,15 +1,15 @@
 path_data:
-choosed:Y:\VM\Share\Projects\V3IftttDetect2\EspBridgeTLS\firmware\0x00000.bin;0x00000;
-choosed:Y:\VM\Share\Projects\V3IftttDetect2\EspBridgeTLS\firmware\0x20000.bin;0x20000;
-choosed:Y:\VM\Share\Projects\V3IftttDetect2\EspBridgeTLS\libesphttpd\webpages.espfs;0x12000;
-choosed:Y:\VM\Share\Projects\V3IftttDetect2\EspBridgeTLS\esp_init_data_default.bin;0xfc000;
-choosed:Y:\VM\Share\Projects\V3IftttDetect2\EspBridgeTLS\esp_ca_cert.bin;0x1A000;
+choosed:Y:\VM\Share\Projects\V2IftttDetect\EspBridgeTLS\firmware\0x00000.bin;0x00000;
+choosed:Y:\VM\Share\Projects\V2IftttDetect\EspBridgeTLS\firmware\0x20000.bin;0x20000;
+choosed:Y:\VM\Share\Projects\V2IftttDetect\EspBridgeTLS\libesphttpd\webpages.espfs;0x12000;
+choosed:Y:\VM\Share\Projects\V2IftttDetect\EspBridgeSSL\esp_init_data_default.bin;0xfc000;
+choosed:Y:\VM\Share\Projects\V2IftttDetect\EspBridgeTLS\esp_ca_cert.bin;0x1A000;
 empty:;0x40000;
 empty:;0x7c000;
-default_path:Y:\VM\Share\Projects\V3IftttDetect2\EspBridgeTLS;
+default_path:Y:\VM\Share\Projects\V2IftttDetect\EspBridgeSSL;
 COM1:
-com_port1:8
-baudrate1:3
+com_port1:6
+baudrate1:4
 COM2:
 com_port2:6
 baudrate2:2
@@ -36,11 +36,11 @@ ID_BIND:
 id_bind_addr:0x
 
 CRYSTAL:1
-SPIAUTOSET:0
+SPIAUTOSET:1
 SPICFGDIS:0
 SPISPEED:0
 SPIMODE:0
-FLASHSIZE:2
+FLASHSIZE:0
 EFUSE_MODE:1
 TARGETPOWER1:-10.000000
 TARGETPOWER2:-10.000000

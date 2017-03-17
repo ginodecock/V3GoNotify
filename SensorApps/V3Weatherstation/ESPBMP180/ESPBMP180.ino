@@ -55,9 +55,9 @@ void setup() {
 void triggerButtonEvent(String eventName, String key)
 {
   // Define the WiFi Client
-  WiFiClient client;
+  WiFiClientSecure client;
 
-  if (!client.connect(Wunderground_URL, 80)) {
+  if (!client.connect(Wunderground_URL, 443)) {
     Serial.println("<No_Http_Connection");
     Serial.println("No connection with: " + String(Wunderground_URL));
     return;
@@ -74,6 +74,9 @@ void triggerButtonEvent(String eventName, String key)
                "Host: " + Wunderground_URL + "\r\n" +
                "Connection: close\r\n\r\n");
   // Read all the lines of the reply from server and print them to Serial
+  Serial.println("Request sent - waiting for reply...");
+
+  delay(1000);
   while(client.available()){
     String line = client.readStringUntil('\r');
     Serial.print(line);

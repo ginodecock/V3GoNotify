@@ -96,7 +96,7 @@ void triggerDetection()
 ISR(WDT_vect)
 {
   timeCounter++;
-  if (timeCounter > 200){
+  if (timeCounter > 100){
      if (alarm == 0){
         power_all_enable();
         alarm = 2;    
@@ -126,6 +126,7 @@ double T,P;
         batVcc = readVcc();
         digitalWrite(Step_EN,HIGH);//3V on
         digitalWrite(LED, HIGH);//
+        delay(1000);
         Serial.println("\n----BMP180 handling----");
         digitalWrite(Esp_power, LOW); //esp wifi
         digitalWrite(Esp_IO0, HIGH);//esp IO0
@@ -176,6 +177,7 @@ double T,P;
     batVcc = readVcc();
     digitalWrite(Step_EN,HIGH);//3V on
     digitalWrite(LED, HIGH);//
+    delay(1000);
     Serial.println("\n----Button handling----");
     digitalWrite(Esp_power, LOW); //esp wifi
     digitalWrite(Esp_IO0, HIGH);//esp IO0

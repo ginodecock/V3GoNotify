@@ -4,7 +4,7 @@
 #include <avr/wdt.h>
 #include <avr/sleep.h>
 #include <avr/power.h>
-SFE_BMP180 pressure;
+
 
 #define LED 13
 #define Esp_IO0 17
@@ -40,7 +40,7 @@ void setup(){
   digitalWrite(Esp_IO0, HIGH);//esp IO0
   pinMode(LED, OUTPUT);
   pinMode(Sensor_power, OUTPUT);
-  digitalWrite(Sensor_power, LOW);
+  digitalWrite(Sensor_power, HIGH);
   pinMode(Trigger_switch, OUTPUT); //PB switch power low for Low power
   digitalWrite(Trigger_switch, LOW);
   pinMode(Step_EN, OUTPUT);
@@ -74,13 +74,7 @@ void setup(){
   Serial1.begin(38400);
   Serial.begin(38400);
   Serial.println("REBOOT");
-  if (pressure.begin())
-    Serial.println("BMP180 init success");
-  else
-  {
-    Serial.println("BMP180 init fail\n\n");
-    while(1); // Pause forever.
-  }
+  
   inputString.reserve(200);
   
   delay(1500); //wait for the sensor to be ready 
@@ -125,6 +119,10 @@ double T,P;
 
         batVcc = readVcc();
         digitalWrite(Step_EN,HIGH);//3V on
+        SFE_BMP180 pressure;
+        digitalWrite(Sensor_power, LOW);
+        pressure.begin();
+  
         digitalWrite(LED, HIGH);//
         delay(1000);
         Serial.println("\n----BMP180 handling----");
@@ -176,6 +174,9 @@ double T,P;
   if (alarm == 5){
     batVcc = readVcc();
     digitalWrite(Step_EN,HIGH);//3V on
+    SFE_BMP180 pressure;
+    digitalWrite(Sensor_power, LOW);
+    pressure.begin();
     digitalWrite(LED, HIGH);//
     delay(1000);
     Serial.println("\n----Button handling----");
@@ -343,6 +344,7 @@ void disableWatchdog()
 
 void goToSleep(void)
 {
+  digitalWrite(Sensor_power, HIGH);
   digitalWrite(Step_EN, LOW);//3V off
   digitalWrite(Esp_power, HIGH);
   digitalWrite(Esp_RST, LOW);
